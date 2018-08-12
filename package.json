@@ -1,6 +1,6 @@
 {
   "name": "mysql-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Mysql query builder",
   "main": "index.js",
   "scripts": {
