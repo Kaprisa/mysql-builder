@@ -26,7 +26,7 @@ export default class QueryBuilder {
   }
 
   select(...fields: Array<string | number>): QueryBuilder {
-    this.query = `${SELECT} ${fields ? arrToQueryString(fields) : '*'} FROM \`${this.table}\` `;
+    this.query = `${SELECT} ${fields.length ? arrToQueryString(fields) : '*'} FROM \`${this.table}\` `;
     this.lastCommand = SELECT;
     return this;
   }

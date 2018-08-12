@@ -10,7 +10,7 @@ export const OPTIONS = {
   TYPE: 'TYPE',
   NAME: 'NAME',
   CONSTRAINT: 'CONSTRAINT',
-  FOREIGN: 'FOREIGN KEY',
+  FOREIGN: 'FOREIGN',
 };
 
 

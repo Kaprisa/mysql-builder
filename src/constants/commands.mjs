@@ -8,7 +8,7 @@ export const GROUP = 'GROUP BY';
 export const HAVING = 'HAVING';
 export const LIMIT = 'LIMIT';
 
-export type SQLCommand = typeof  SELECT | typeof  WHERE | typeof  SORT | typeof  SKIP | typeof GROUP | typeof  HAVING | typeof  LIMIT;
+export type SQLCommand = typeof SELECT | typeof WHERE | typeof SORT | typeof SKIP | typeof GROUP | typeof HAVING | typeof LIMIT;
 
 export const UP = 'ASC';
 export const DOWN = 'DESC';

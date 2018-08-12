@@ -30,7 +30,7 @@ export default class Table {
   }
 
   find(id) {
-    return this.query.select().where(idOrCondition(id)).get();
+    return this.query.select().where(idOrCondition(id)).one();
   }
 
   all() {
@@ -38,10 +38,10 @@ export default class Table {
   }
 
   first() {
-    return this.query.select().sortBy('id').limit(1).get();
+    return this.query.select().sortBy('id').limit(1).one();
   }
 
   last() {
-    return this.query.select().sortBy('id', DOWN).limit(1).get();
+    return this.query.select().sortBy('id', DOWN).limit(1).one();
   }
 }

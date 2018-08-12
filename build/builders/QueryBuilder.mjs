@@ -20,7 +20,7 @@ export default class QueryBuilder {
   }
 
   select(...fields) {
-    this.query = `${SELECT} ${fields ? arrToQueryString(fields) : '*'} FROM \`${this.table}\` `;
+    this.query = `${SELECT} ${fields.length ? arrToQueryString(fields) : '*'} FROM \`${this.table}\` `;
     this.lastCommand = SELECT;
     return this;
   }
@@ -83,8 +83,11 @@ export default class QueryBuilder {
     return this.query;
   }
 
-  /* Maybe it will be Array<Model> */
   get() {
     return DB.query(this.query);
+  }
+
+  one() {
+    return DB.queryRow(this.query);
   }
 }

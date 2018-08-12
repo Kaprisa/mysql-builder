@@ -1,8 +1,8 @@
 {
-  "name": "mysql-builder",
+  "name": "mjs-mysql-builder",
   "version": "1.0.1",
   "description": "Mysql query builder",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
     "test": "ms test",
     "build": "flow-remove-types src/ -d build/",
