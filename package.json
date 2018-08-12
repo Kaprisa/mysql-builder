@@ -1,0 +1,30 @@
+{
+  "name": "mysql-builder",
+  "version": "1.0.0",
+  "description": "Mysql query builder",
+  "main": "index.js",
+  "scripts": {
+    "test": "ms test",
+    "build": "flow-remove-types src/ -d build/",
+    "lint:check": "eslint ./ --ext .mjs",
+    "lint:fix": "eslint ./ --ext .mjs --fix",
+    "flow": "flow"
+  },
+  "author": "Kseniya kaprisa57@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.13.0",
+    "flow-bin": "^0.78.0",
+    "flow-remove-types": "^1.2.3",
+    "git-hooks": "^1.1.10",
+    "mjs-mocha": "^1.0.2"
+  },
+  "dependencies": {
+    "mysql": "^2.16.0"
+  }
+}
