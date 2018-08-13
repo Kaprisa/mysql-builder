@@ -3,9 +3,8 @@
 import DB from '../DB';
 import QueryBuilder from '../builders/QueryBuilder';
 import { DOWN } from '../constants/commands';
-
-export type RowType = {[string]: any};
-export type ConditionType = number | RowType;
+import { objectToQueryCondition } from '../utils/string';
+import type { RowType, ConditionType } from '../constants/schema';
 
 const idOrCondition = (id: ConditionType): RowType => (typeof id === 'object' ? id : { id });
 
@@ -20,15 +19,19 @@ export default class Table {
   }
 
   insert(params: RowType): Promise<void> {
-    return DB.query('INSERT INTO ? SET ?', [this.name, params]);
+    return DB.query(`INSERT INTO \`${this.name}\` SET ${objectToQueryCondition(params)}`);
+  }
+
+  replace(params: RowType): Promise<void> {
+    return DB.query(`REPLACE INTO \`${this.name}\` SET ${objectToQueryCondition(params)}`);
   }
 
   update(id: ConditionType, params: RowType): Promise<void> {
-    return DB.query('UPDATE ? SET ? WHERE ?', [this.name, params, idOrCondition(id)]);
+    return DB.query(`UPDATE \`${this.name}\` SET ${objectToQueryCondition(params)} WHERE ${objectToQueryCondition(idOrCondition(id), ' AND ')}`);
   }
 
-  delete(id: ConditionType): Promise<void> {
-    return DB.query('DELETE FROM ? WHERE ?', [this.name, idOrCondition(id)]);
+  delete(id: ?ConditionType): Promise<void> {
+    return DB.query(`DELETE FROM ${this.name} WHERE ${id ? objectToQueryCondition(idOrCondition(id), ' AND ') : 1}`);
   }
 
   set(id: ConditionType, field: string, value: any): Promise<void> {
@@ -39,15 +42,17 @@ export default class Table {
     return this.query.select().where(idOrCondition(id)).one();
   }
 
-  all(): Promise<Array<RowType>> {
-    return this.query.select().get();
+  all(...fields: Array<string>): Promise<Array<RowType>> {
+    return this.query.select(...fields).get();
   }
 
-  first(): Promise<{[string]: any}> {
-    return this.query.select().sortBy('id').limit(1).one();
+  first(params: ?RowType): Promise<{[string]: any}> {
+    return this.query.select().where(params).sortBy('id').limit(1)
+      .one();
   }
 
-  last(): Promise<{[string]: any}> {
-    return this.query.select().sortBy('id', DOWN).limit(1).one();
+  last(params: ?RowType): Promise<{[string]: any}> {
+    return this.query.select().where(params).sortBy('id', DOWN).limit(1)
+      .one();
   }
 }

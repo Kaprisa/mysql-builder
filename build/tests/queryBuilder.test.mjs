@@ -16,6 +16,16 @@ describe('Query Builder', () => {
       .sortBy('age', DOWN)
       .build();
 
-    expect(q).to.equal('SELECT `name`, SUM(`age`) age FROM `users` WHERE `name`=`bob` GROUP BY `name` HAVING SUM(age) > 100 ORDER BY `age` DESC ');
+    expect(q).to.equal('SELECT `name`, SUM(`age`) age FROM `users` WHERE `name`=\'bob\' GROUP BY `name` HAVING SUM(age) > 100 ORDER BY `age` DESC ');
+  });
+
+  it('Works correctly with where', () => {
+    const q = (new QueryBuilder('users'))
+      .select()
+      .where('age', '>', 5)
+      .where('name', 'LIKE', '%e%', 'AND')
+      .build();
+
+    expect(q).to.equal('SELECT * FROM `users` WHERE `age` > 5 AND `name` LIKE \'%e%\' ');
   });
 });

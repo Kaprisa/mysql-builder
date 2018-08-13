@@ -23,4 +23,15 @@ export const AGGREGATION = {
   MAX: 'MAX',
 };
 
-export type AggregationType = $Keys<typeof AGGREGATION>
+export type AggregationType = $Values<typeof AGGREGATION>;
+
+export const WHERE_SIGN = {
+  IN: 'IN',
+  NOT_IN: 'NOT IN',
+  LIKE: 'LIKE',
+  GT: '>',
+  LT: '<',
+  EQUAL: '=',
+};
+
+export type WhereSign = $Values<typeof WHERE_SIGN>;

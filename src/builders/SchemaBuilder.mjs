@@ -30,12 +30,16 @@ export default class SchemaBuilder {
   }
 
   build(): string {
-    return `CREATE TABLE \`${this.table}\` (
+    return `CREATE TABLE IF NOT EXISTS \`${this.table}\` (
       ${this.fields.join(', ')}
     ) ENGINE=${this.engine} DEFAULT CHARSET=${this.charset} COLLATE=${this.collate}`;
   }
 
   create(): Promise<void> {
     return DB.query(this.build());
+  }
+
+  drop(): Promise<void> {
+    return DB.query(`DROP TABLE IF EXISTS \`${this.table}\``);
   }
 }

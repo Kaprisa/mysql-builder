@@ -102,11 +102,14 @@ export const REFERENCE_OPTIONS = {
   SET_DEFAULT: 'SET DEFAULT',
 };
 
-export type ReferenceOption = $Keys<typeof REFERENCE_OPTIONS>;
+export type ReferenceOption = $Values<typeof REFERENCE_OPTIONS>;
 
 export const INDEX_TYPES = {
   BTREE: 'BTREE',
   HASH: 'HASH',
 };
 
-export type IndexType = $Keys<typeof INDEX_TYPES>
+export type IndexType = $Keys<typeof INDEX_TYPES>;
+
+export type RowType = {[string]: any};
+export type ConditionType = number | RowType;

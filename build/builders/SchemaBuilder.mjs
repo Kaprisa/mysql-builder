@@ -20,12 +20,16 @@ export default class SchemaBuilder {
   }
 
   build() {
-    return `CREATE TABLE \`${this.table}\` (
+    return `CREATE TABLE IF NOT EXISTS \`${this.table}\` (
       ${this.fields.join(', ')}
     ) ENGINE=${this.engine} DEFAULT CHARSET=${this.charset} COLLATE=${this.collate}`;
   }
 
   create() {
     return DB.query(this.build());
+  }
+
+  drop() {
+    return DB.query(`DROP TABLE IF EXISTS \`${this.table}\``);
   }
 }

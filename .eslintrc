@@ -16,7 +16,8 @@
     ],
     "import/no-extraneous-dependencies": "off",
     "no-console": "off",
-    "max-len": "off"
+    "max-len": "off",
+    "no-nested-ternary": "off"
   },
   "settings": {
     "import/resolver": {

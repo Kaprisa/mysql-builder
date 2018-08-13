@@ -2,10 +2,13 @@
 
 import DB from '../DB';
 import {
-  WHERE, SELECT, HAVING, GROUP, SKIP, LIMIT, SORT, UP,
+  WHERE, SELECT, HAVING, GROUP, SKIP, LIMIT, SORT, UP, WHERE_SIGN,
 } from '../constants/commands';
-import type { SortDirection, SQLCommand, AggregationType } from '../constants/commands';
+import type {
+  SortDirection, SQLCommand, AggregationType, WhereSign,
+} from '../constants/commands';
 import { arrToQueryString, objectToQueryCondition } from '../utils/string';
+import type { RowType } from '../constants/schema';
 
 export default class QueryBuilder {
   query: string;
@@ -25,8 +28,8 @@ export default class QueryBuilder {
     this.lastCommand = command;
   }
 
-  select(...fields: Array<string | number>): QueryBuilder {
-    this.query = `${SELECT} ${fields.length ? arrToQueryString(fields) : '*'} FROM \`${this.table}\` `;
+  select(...fields: Array<string>): QueryBuilder {
+    this.query = `${SELECT} ${arrToQueryString(fields)} FROM \`${this.table}\` `;
     this.lastCommand = SELECT;
     return this;
   }
@@ -39,19 +42,13 @@ export default class QueryBuilder {
     return this;
   }
 
-  where(params: {[string]: any}): QueryBuilder {
-    this.validate(WHERE, [SELECT]);
-    this.query += `${WHERE} ${objectToQueryCondition(params, ' AND ')} `;
-    return this;
-  }
-
-  whereIn(field: string, range: Array<string | number>, startWith: string = WHERE): QueryBuilder {
-    this.query += `${startWith} \`${field}\` IN (${arrToQueryString(range)}) `;
-    return this;
-  }
-
-  whereNotIn(field: string, range: Array<string | number>, startWith: string = WHERE): QueryBuilder {
-    this.query += `${startWith} \`${field}\` NOT IN (${arrToQueryString(range)}) `;
+  where(field: string | ?RowType, sign: WhereSign = WHERE_SIGN.EQUAL, cond: Array<string> | string | number = '', startWith: string = WHERE): QueryBuilder {
+    this.validate(WHERE, [SELECT, WHERE]);
+    if (typeof field === 'string') {
+      this.query += `${startWith} \`${field}\` ${sign} ${Array.isArray(cond) ? `(${arrToQueryString(cond)})` : typeof cond === 'string' ? `'${cond}'` : cond} `;
+    } else {
+      this.query += field ? `${WHERE} ${objectToQueryCondition(field, ' AND ')} ` : '';
+    }
     return this;
   }
 
@@ -61,14 +58,14 @@ export default class QueryBuilder {
     return this;
   }
 
-  groupBy(...fields: Array<string | number>): QueryBuilder {
+  groupBy(...fields: Array<string>): QueryBuilder {
     this.validate(GROUP, [SELECT, WHERE, LIMIT]);
     this.query += `${GROUP} ${arrToQueryString(fields)} `;
     return this;
   }
 
   limit(count: number): QueryBuilder {
-    this.validate(LIMIT, [SELECT, WHERE, SKIP]);
+    this.validate(LIMIT, [SELECT, WHERE, SKIP, SORT]);
     this.query += `${LIMIT} ${count} `;
     return this;
   }

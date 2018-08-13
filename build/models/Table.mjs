@@ -3,6 +3,7 @@
 import DB from '../DB';
 import QueryBuilder from '../builders/QueryBuilder';
 import { DOWN } from '../constants/commands';
+import { objectToQueryCondition } from '../utils/string';
 
 
 const idOrCondition = id => (typeof id === 'object' ? id : { id });
@@ -14,15 +15,19 @@ export default class Table {
   }
 
   insert(params) {
-    return DB.query('INSERT INTO ? SET ?', [this.name, params]);
+    return DB.query(`INSERT INTO \`${this.name}\` SET ${objectToQueryCondition(params)}`);
+  }
+
+  replace(params) {
+    return DB.query(`REPLACE INTO \`${this.name}\` SET ${objectToQueryCondition(params)}`);
   }
 
   update(id, params) {
-    return DB.query('UPDATE ? SET ? WHERE ?', [this.name, params, idOrCondition(id)]);
+    return DB.query(`UPDATE \`${this.name}\` SET ${objectToQueryCondition(params)} WHERE ${objectToQueryCondition(idOrCondition(id), ' AND ')}`);
   }
 
   delete(id) {
-    return DB.query('DELETE FROM ? WHERE ?', [this.name, idOrCondition(id)]);
+    return DB.query(`DELETE FROM ${this.name} WHERE ${id ? objectToQueryCondition(idOrCondition(id), ' AND ') : 1}`);
   }
 
   set(id, field, value) {
@@ -33,15 +38,17 @@ export default class Table {
     return this.query.select().where(idOrCondition(id)).one();
   }
 
-  all() {
-    return this.query.select().get();
+  all(...fields) {
+    return this.query.select(...fields).get();
   }
 
-  first() {
-    return this.query.select().sortBy('id').limit(1).one();
+  first(params) {
+    return this.query.select().where(params).sortBy('id').limit(1)
+      .one();
   }
 
-  last() {
-    return this.query.select().sortBy('id', DOWN).limit(1).one();
+  last(params) {
+    return this.query.select().where(params).sortBy('id', DOWN).limit(1)
+      .one();
   }
 }

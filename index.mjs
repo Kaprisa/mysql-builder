@@ -14,7 +14,9 @@ import {
   REFERENCE_OPTIONS, CHARSETS, COLLATION, ENGINES, INDEX_TYPES,
 } from './build/constants/schema';
 
-import { DOWN, UP, AGGREGATION } from './build/constants/commands';
+import {
+  DOWN, UP, AGGREGATION, WHERE_SIGN,
+} from './build/constants/commands';
 
 export { QueryBuilder, FieldBuilder, SchemaBuilder };
 
@@ -26,4 +28,6 @@ export {
   REFERENCE_OPTIONS, CHARSETS, ENGINES, INDEX_TYPES, COLLATION,
 };
 
-export { DOWN, UP, AGGREGATION };
+export {
+  DOWN, UP, AGGREGATION, WHERE_SIGN,
+};

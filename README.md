@@ -13,7 +13,7 @@ DB.queryRow(queryString, params) // -> Promise<?RowType> - first row
 
 ### Builders
 
-- field
+- Field builder
 
 ```js
 import { FieldBuilder } from 'mysql-builder';
@@ -32,7 +32,7 @@ const field = (new FieldBuilder('id')) // -> FieldBuilder
 PRIMARY KEY (`id`) 
 ```
 
-- table
+- Schema builder
 
 ```js
 import { SchemaBuilder } from 'mysql-builder';
@@ -49,7 +49,7 @@ const schema = (new SchemaBuilder('users'))
       .create() // -> Promise<void>
 ```
 
-- query
+- Query builder
 
 ```js
 import { QueryBuilder } from 'mysql-builder'
@@ -77,10 +77,25 @@ HAVING SUM(age) > 100
 ORDER BY `age` DESC
 ```
 
+```js
+(new QueryBuilder('users'))
+      .select()
+      .where('age', '>', 5)
+      .where('name', 'LIKE', '%e%', 'AND')
+      .build();
+```
+
+- This converts to
+
+```sql
+SELECT * FROM `users` 
+WHERE `age` > 5 AND `name` LIKE '%e%'
+```
+
 
 ### Models
 
-- Table
+- Table builder
 
 ```js
 import { Table } from 'mysql-builder';
@@ -96,9 +111,9 @@ table.update(id: ConditionType, params: RowType) // -> Promise<void>
 table.delete(id: ConditionType) // -> Promise<void>
 table.set(id: ConditionType, field: string, value: any) // -> Promise<void>
 table.find(id: ConditionType) // -> Promise<?RowType>
-table.all() // -> Promise<Array<RowType>>
-table.first() // -> Promise<{[string]: any}>
-table.last() // -> Promise<{[string]: any}>
+table.all(...fields: Array<string>) // -> Promise<Array<RowType>>
+table.first(params: ?RowType) // -> Promise<{[string]: any}>
+table.last(params: ?RowType) // -> Promise<{[string]: any}>
 
 ```
 

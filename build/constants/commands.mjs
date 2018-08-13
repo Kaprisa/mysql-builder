@@ -20,3 +20,13 @@ export const AGGREGATION = {
   MIN: 'MIN',
   MAX: 'MAX',
 };
+
+
+export const WHERE_SIGN = {
+  IN: 'IN',
+  NOT_IN: 'NOT IN',
+  LIKE: 'LIKE',
+  GT: '>',
+  LT: '<',
+  EQUAL: '=',
+};

@@ -28,7 +28,7 @@ describe('Schema Builder', () => {
       .add('book_id', f => f.type('int(11)').notNull().foreign().references('books', 'id')
         .onDelete(REFERENCE_OPTIONS.CASCADE))
       .build();
-    expect(normalize(schema)).to.equal(normalize(`CREATE TABLE \`users\` (
+    expect(normalize(schema)).to.equal(normalize(`CREATE TABLE IF NOT EXISTS \`users\` (
       \`id\` int(11) AUTO_INCREMENT NOT NULL ,PRIMARY KEY (\`id\`) ,
       \`email\` varchar(50) NOT NULL UNIQUE ,
       \`name\` varchar(50) NULL ,
