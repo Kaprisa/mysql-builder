@@ -42,13 +42,19 @@ export default class FieldBuilder {
     return this;
   }
 
+  enum(...fields: Array<string | number>): FieldBuilder {
+    this.validate(OPTIONS.TYPE, [OPTIONS.NAME]);
+    this.field += `enum(${fields.map(f => (typeof f === 'string' ? `'${f}'` : f)).join(', ')}) `;
+    return this;
+  }
+
   increment(): FieldBuilder {
     this.validate(OPTIONS.MODIFIER, [OPTIONS.TYPE, OPTIONS.MODIFIER]);
     this.field += 'AUTO_INCREMENT ';
     return this;
   }
 
-  nullable(): FieldBuilder {
+  null(): FieldBuilder {
     this.validate(OPTIONS.MODIFIER, [OPTIONS.TYPE, OPTIONS.MODIFIER]);
     this.field += 'NULL ';
     return this;
@@ -62,7 +68,7 @@ export default class FieldBuilder {
 
   default(value: any): FieldBuilder {
     this.validate(OPTIONS.MODIFIER, [OPTIONS.TYPE, OPTIONS.MODIFIER]);
-    this.field += `DEFAULT ${value}`;
+    this.field += `DEFAULT ${typeof value === 'string' ? `'${value}'` : value} `;
     return this;
   }
 

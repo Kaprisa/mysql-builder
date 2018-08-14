@@ -19,12 +19,12 @@ describe('Table', () => {
     await usersBuilder
       .add('id', f => f.type('int(11)').increment().notNull().primary())
       .add('email', f => f.type('varchar(50)').notNull().unique())
-      .add('name', f => f.type('varchar(50)').nullable())
+      .add('name', f => f.type('varchar(50)').null())
       .create();
 
     await booksBuilder
       .add('id', f => f.type('int(11)').increment().notNull().primary())
-      .add('title', f => f.type('varchar(50)').nullable())
+      .add('title', f => f.type('varchar(50)').null())
       .add('type', f => f.type('varchar(30)').index().using(INDEX_TYPES.BTREE))
       .add('user_id', f => f.type('int(11)').notNull().foreign().references('users', 'id')
         .onDelete(REFERENCE_OPTIONS.CASCADE))

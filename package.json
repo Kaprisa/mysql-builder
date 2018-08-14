@@ -4,7 +4,7 @@
   "description": "Mysql query builder",
   "main": "index.mjs",
   "scripts": {
-    "test": "ms test",
+    "test": "npm run build && ms test",
     "build": "flow-remove-types src/ -d build/",
     "lint:check": "eslint ./ --ext .mjs",
     "lint:fix": "eslint ./ --ext .mjs --fix",
