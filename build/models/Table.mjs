@@ -27,7 +27,7 @@ export default class Table {
   }
 
   delete(id) {
-    return DB.query(`DELETE FROM ${this.name} WHERE ${id ? objectToQueryCondition(idOrCondition(id), ' AND ') : 1}`);
+    return DB.query(`DELETE FROM \`${this.name}\` WHERE ${id ? objectToQueryCondition(idOrCondition(id), ' AND ') : 1}`);
   }
 
   set(id, field, value) {
