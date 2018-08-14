@@ -34,6 +34,10 @@ export default class Table {
     return this.update(id, { [field]: value });
   }
 
+  get(condition) {
+    return this.query.where(condition).get();
+  }
+
   find(id) {
     return this.query.select().where(idOrCondition(id)).one();
   }

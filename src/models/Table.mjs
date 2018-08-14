@@ -38,6 +38,10 @@ export default class Table {
     return this.update(id, { [field]: value });
   }
 
+  get(condition: ?RowType): Promise<Array<RowType>> {
+    return this.query.where(condition).get();
+  }
+
   find(id: ConditionType): Promise<?RowType> {
     return this.query.select().where(idOrCondition(id)).one();
   }
