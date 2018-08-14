@@ -125,6 +125,7 @@ type ConditionType = number | RowType;
 
 /* all supported methods */
 table.insert(params: RowType) // -> Promise<void>
+table.replace(params: RowType) // -> Promise<void> (~ insert, on duplicate key update)
 table.update(id: ConditionType, params: RowType) // -> Promise<void>
 table.delete(id: ConditionType) // -> Promise<void>
 table.set(id: ConditionType, field: string, value: any) // -> Promise<void>

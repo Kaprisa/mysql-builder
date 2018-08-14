@@ -35,7 +35,7 @@ export default class Table {
   }
 
   get(condition) {
-    return this.query.where(condition).get();
+    return this.query.select().where(condition).get();
   }
 
   find(id) {

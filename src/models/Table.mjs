@@ -39,7 +39,7 @@ export default class Table {
   }
 
   get(condition: ?RowType): Promise<Array<RowType>> {
-    return this.query.where(condition).get();
+    return this.query.select().where(condition).get();
   }
 
   find(id: ConditionType): Promise<?RowType> {
