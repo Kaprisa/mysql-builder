@@ -121,7 +121,7 @@ export default class FieldBuilder {
   }
 
   using(indexType: IndexType): FieldBuilder {
-    this.validate(OPTIONS.USING, [OPTIONS.CONSTRAINT]);
+    this.validate(OPTIONS.USING, [OPTIONS.CONSTRAINT, OPTIONS.REFERENCES]);
     this.field += `USING ${indexType} `;
     return this;
   }
