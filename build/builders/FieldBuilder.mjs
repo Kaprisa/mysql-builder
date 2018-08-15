@@ -58,9 +58,9 @@ export default class FieldBuilder {
     return this;
   }
 
-  default(value) {
+  default(value, isQuotes = true) {
     this.validate(OPTIONS.MODIFIER, [OPTIONS.TYPE, OPTIONS.MODIFIER]);
-    this.field += `DEFAULT ${typeof value === 'string' ? `'${value}'` : value} `;
+    this.field += `DEFAULT ${typeof value === 'string' && isQuotes ? `'${value}'` : value} `;
     return this;
   }
 
